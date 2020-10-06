@@ -141,11 +141,15 @@
         <el-button type="primary" @click="editUserInfo">确 定</el-button>
       </span>
 			</el-dialog>
-    
+      <EditUser :visible.sync="editUserVisible"  :model="editForm" :callBack="getUserList"  width="50%" />
   </div>
 </template>
 <script>
+import EditUser from './EditUser'
 export default {
+  components:{
+    EditUser
+  },
   data() {
     //验证邮箱的规则
     var checkEmail = (rule, value, cb) => {
@@ -185,7 +189,8 @@ export default {
         mobile: ''
 			},
 			//控制修改用户对话框的显示与否
-			editDialogVisible: false,
+      editDialogVisible: false,
+      editUserVisible:false,
 			//修改用户的表单数据
 			editForm: {
 					username: '',
@@ -323,8 +328,11 @@ editFormRules: {
     if (res.meta.status !== 200) return this.$message.error('获取用户信息失败')
     //将获取到的数据保存到数据editForm中
     this.editForm = res.data
+    console.log(this.editForm)
     //显示弹出窗
-    this.editDialogVisible = true
+    //this.editDialogVisible = true
+    //显示自定义组件
+    this.editUserVisible = true;  
 		},
 		editDialogClosed(){
 			// this.editDialogVisible = false;
